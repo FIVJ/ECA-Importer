@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
@@ -12,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,22 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "PBF_PAGAMENTOS")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PbfPagamentos.findAll", query = "SELECT p FROM PbfPagamentos p")
-    , @NamedQuery(name = "PbfPagamentos.findByIdPbfPagamentos", query = "SELECT p FROM PbfPagamentos p WHERE p.idPbfPagamentos = :idPbfPagamentos")
-    , @NamedQuery(name = "PbfPagamentos.findByUf", query = "SELECT p FROM PbfPagamentos p WHERE p.uf = :uf")
-    , @NamedQuery(name = "PbfPagamentos.findByCodigoSIAFIMunicipio", query = "SELECT p FROM PbfPagamentos p WHERE p.codigoSIAFIMunicipio = :codigoSIAFIMunicipio")
-    , @NamedQuery(name = "PbfPagamentos.findByNomeMunicipio", query = "SELECT p FROM PbfPagamentos p WHERE p.nomeMunicipio = :nomeMunicipio")
-    , @NamedQuery(name = "PbfPagamentos.findByCodigoFuncao", query = "SELECT p FROM PbfPagamentos p WHERE p.codigoFuncao = :codigoFuncao")
-    , @NamedQuery(name = "PbfPagamentos.findByCodigoSubfuncao", query = "SELECT p FROM PbfPagamentos p WHERE p.codigoSubfuncao = :codigoSubfuncao")
-    , @NamedQuery(name = "PbfPagamentos.findByCodigoPrograma", query = "SELECT p FROM PbfPagamentos p WHERE p.codigoPrograma = :codigoPrograma")
-    , @NamedQuery(name = "PbfPagamentos.findByCodigoAcao", query = "SELECT p FROM PbfPagamentos p WHERE p.codigoAcao = :codigoAcao")
-    , @NamedQuery(name = "PbfPagamentos.findByNISFavorecido", query = "SELECT p FROM PbfPagamentos p WHERE p.nISFavorecido = :nISFavorecido")
-    , @NamedQuery(name = "PbfPagamentos.findByNomeFavorecido", query = "SELECT p FROM PbfPagamentos p WHERE p.nomeFavorecido = :nomeFavorecido")
-    , @NamedQuery(name = "PbfPagamentos.findByFonteFinalidade", query = "SELECT p FROM PbfPagamentos p WHERE p.fonteFinalidade = :fonteFinalidade")
-    , @NamedQuery(name = "PbfPagamentos.findByValorParcela", query = "SELECT p FROM PbfPagamentos p WHERE p.valorParcela = :valorParcela")
-    , @NamedQuery(name = "PbfPagamentos.findByMesCompetencia", query = "SELECT p FROM PbfPagamentos p WHERE p.mesCompetencia = :mesCompetencia")
-    , @NamedQuery(name = "PbfPagamentos.findByAnoCompetencia", query = "SELECT p FROM PbfPagamentos p WHERE p.anoCompetencia = :anoCompetencia")})
 public class PbfPagamentos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +52,12 @@ public class PbfPagamentos implements Serializable {
     private String mesCompetencia;
     @Column(name = "Ano_Competencia")
     private String anoCompetencia;
+    @Column(name = "Atualizacao")
+    private String atualizacao;
+    @Column(name = "Origem")
+    private String origem;
+    @Column(name = "Arquivo")
+    private String arquivo;
 
     public PbfPagamentos() {
     }
@@ -195,6 +178,30 @@ public class PbfPagamentos implements Serializable {
         this.anoCompetencia = anoCompetencia;
     }
 
+    public String getAtualizacao() {
+        return atualizacao;
+    }
+
+    public void setAtualizacao(String atualizacao) {
+        this.atualizacao = atualizacao;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -219,5 +226,5 @@ public class PbfPagamentos implements Serializable {
     public String toString() {
         return "model.PbfPagamentos[ idPbfPagamentos=" + idPbfPagamentos + " ]";
     }
-    
+
 }

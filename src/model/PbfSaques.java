@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.Serializable;
@@ -13,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,24 +20,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "PBF_SAQUES")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "PbfSaques.findAll", query = "SELECT p FROM PbfSaques p")
-    , @NamedQuery(name = "PbfSaques.findByIdPBFSAQUES", query = "SELECT p FROM PbfSaques p WHERE p.idPBFSAQUES = :idPBFSAQUES")
-    , @NamedQuery(name = "PbfSaques.findByUf", query = "SELECT p FROM PbfSaques p WHERE p.uf = :uf")
-    , @NamedQuery(name = "PbfSaques.findByCodigoSIAFIMunicipio", query = "SELECT p FROM PbfSaques p WHERE p.codigoSIAFIMunicipio = :codigoSIAFIMunicipio")
-    , @NamedQuery(name = "PbfSaques.findByNomeMunicipio", query = "SELECT p FROM PbfSaques p WHERE p.nomeMunicipio = :nomeMunicipio")
-    , @NamedQuery(name = "PbfSaques.findByCodigoFuncao", query = "SELECT p FROM PbfSaques p WHERE p.codigoFuncao = :codigoFuncao")
-    , @NamedQuery(name = "PbfSaques.findByCodigoSubfuncao", query = "SELECT p FROM PbfSaques p WHERE p.codigoSubfuncao = :codigoSubfuncao")
-    , @NamedQuery(name = "PbfSaques.findByCodigoPrograma", query = "SELECT p FROM PbfSaques p WHERE p.codigoPrograma = :codigoPrograma")
-    , @NamedQuery(name = "PbfSaques.findByCodigoAcao", query = "SELECT p FROM PbfSaques p WHERE p.codigoAcao = :codigoAcao")
-    , @NamedQuery(name = "PbfSaques.findByNISFavorecido", query = "SELECT p FROM PbfSaques p WHERE p.nISFavorecido = :nISFavorecido")
-    , @NamedQuery(name = "PbfSaques.findByNomeFavorecido", query = "SELECT p FROM PbfSaques p WHERE p.nomeFavorecido = :nomeFavorecido")
-    , @NamedQuery(name = "PbfSaques.findByFonteFinalidade", query = "SELECT p FROM PbfSaques p WHERE p.fonteFinalidade = :fonteFinalidade")
-    , @NamedQuery(name = "PbfSaques.findByMesReferenciaParcela", query = "SELECT p FROM PbfSaques p WHERE p.mesReferenciaParcela = :mesReferenciaParcela")
-    , @NamedQuery(name = "PbfSaques.findByValorParcela", query = "SELECT p FROM PbfSaques p WHERE p.valorParcela = :valorParcela")
-    , @NamedQuery(name = "PbfSaques.findByMesCompetencia", query = "SELECT p FROM PbfSaques p WHERE p.mesCompetencia = :mesCompetencia")
-    , @NamedQuery(name = "PbfSaques.findByAnoCompetencia", query = "SELECT p FROM PbfSaques p WHERE p.anoCompetencia = :anoCompetencia")
-    , @NamedQuery(name = "PbfSaques.findByDataSaque", query = "SELECT p FROM PbfSaques p WHERE p.dataSaque = :dataSaque")})
 public class PbfSaques implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,6 +60,12 @@ public class PbfSaques implements Serializable {
     @Column(name = "Data_Saque")
     @Temporal(TemporalType.DATE)
     private Date dataSaque;
+    @Column(name = "Atualizacao")
+    private String atualizacao;
+    @Column(name = "Origem")
+    private String origem;
+    @Column(name = "Arquivo")
+    private String arquivo;
 
     public PbfSaques() {
     }
@@ -221,6 +202,30 @@ public class PbfSaques implements Serializable {
         this.dataSaque = dataSaque;
     }
 
+    public String getAtualizacao() {
+        return atualizacao;
+    }
+
+    public void setAtualizacao(String atualizacao) {
+        this.atualizacao = atualizacao;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public String getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(String arquivo) {
+        this.arquivo = arquivo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -245,5 +250,5 @@ public class PbfSaques implements Serializable {
     public String toString() {
         return "model.PbfSaques[ idPBFSAQUES=" + idPBFSAQUES + " ]";
     }
-    
+
 }

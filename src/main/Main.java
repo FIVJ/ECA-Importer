@@ -40,8 +40,8 @@ public class Main {
                 //medindo tempo
                 long StartTime = System.currentTimeMillis();
                 ImportDB impDB = new ImportDB();
+                //impDB.importPBF_Payments();
                 try {
-                    //impDB.importPBF_Payments();
                     impDB.importPBF_Drawal();
                 } catch (ParseException ex) {
                     logger.error("Unexpected error", ex);
