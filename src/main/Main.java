@@ -14,7 +14,7 @@ public class Main {
         org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("Main");
 
         //Convert file \t --> ;
-        /*Thread tcvt = new Thread() {
+        Thread tcvt = new Thread() {
             @Override
             public void run() {
                 //medindo tempo
@@ -32,7 +32,7 @@ public class Main {
                 System.out.println("Total time ('HHH':'mm':'ss'.'SSSSS'): " + String.format("%03d:%02d:%02d.%03d", totalh, totalmin, totalsec, totalms));
             }
         };
-        tcvt.start();*/
+        tcvt.start();
         //Import file to DB in unique table
         Thread tiptut = new Thread() {
             @Override
