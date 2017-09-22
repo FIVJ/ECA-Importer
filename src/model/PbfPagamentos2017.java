@@ -1,16 +1,20 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -18,16 +22,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author tassio
  */
 @Entity
-@Table(name = "PBF_SAQUES")
+@Table(name = "PBF_PAGAMENTOS_2017")
 @XmlRootElement
-public class PbfSaques implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "PbfPagamentos2017.findAll", query = "SELECT p FROM PbfPagamentos2017 p")
+    , @NamedQuery(name = "PbfPagamentos2017.findByIdPBFPAGAMENTOS", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.idPBFPAGAMENTOS = :idPBFPAGAMENTOS")
+    , @NamedQuery(name = "PbfPagamentos2017.findByUf", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.uf = :uf")
+    , @NamedQuery(name = "PbfPagamentos2017.findByCodigoSIAFIMunicipio", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.codigoSIAFIMunicipio = :codigoSIAFIMunicipio")
+    , @NamedQuery(name = "PbfPagamentos2017.findByNomeMunicipio", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.nomeMunicipio = :nomeMunicipio")
+    , @NamedQuery(name = "PbfPagamentos2017.findByCodigoFuncao", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.codigoFuncao = :codigoFuncao")
+    , @NamedQuery(name = "PbfPagamentos2017.findByCodigoSubfuncao", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.codigoSubfuncao = :codigoSubfuncao")
+    , @NamedQuery(name = "PbfPagamentos2017.findByCodigoPrograma", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.codigoPrograma = :codigoPrograma")
+    , @NamedQuery(name = "PbfPagamentos2017.findByCodigoAcao", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.codigoAcao = :codigoAcao")
+    , @NamedQuery(name = "PbfPagamentos2017.findByNISFavorecido", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.nISFavorecido = :nISFavorecido")
+    , @NamedQuery(name = "PbfPagamentos2017.findByNomeFavorecido", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.nomeFavorecido = :nomeFavorecido")
+    , @NamedQuery(name = "PbfPagamentos2017.findByFonteFinalidade", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.fonteFinalidade = :fonteFinalidade")
+    , @NamedQuery(name = "PbfPagamentos2017.findByValorParcela", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.valorParcela = :valorParcela")
+    , @NamedQuery(name = "PbfPagamentos2017.findByMesCompetencia", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.mesCompetencia = :mesCompetencia")
+    , @NamedQuery(name = "PbfPagamentos2017.findByAnoCompetencia", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.anoCompetencia = :anoCompetencia")
+    , @NamedQuery(name = "PbfPagamentos2017.findByAtualizacao", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.atualizacao = :atualizacao")
+    , @NamedQuery(name = "PbfPagamentos2017.findByOrigem", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.origem = :origem")
+    , @NamedQuery(name = "PbfPagamentos2017.findByArquivo", query = "SELECT p FROM PbfPagamentos2017 p WHERE p.arquivo = :arquivo")})
+public class PbfPagamentos2017 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "idPBF_SAQUES")
-    private Long idPBFSAQUES;
+    @Column(name = "idPBF_PAGAMENTOS")
+    private Long idPBFPAGAMENTOS;
     @Column(name = "UF")
     private String uf;
     @Column(name = "Codigo_SIAFI_Municipio")
@@ -48,8 +71,6 @@ public class PbfSaques implements Serializable {
     private String nomeFavorecido;
     @Column(name = "Fonte_Finalidade")
     private String fonteFinalidade;
-    @Column(name = "Mes_Referencia_Parcela")
-    private String mesReferenciaParcela;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "Valor_Parcela")
     private Double valorParcela;
@@ -57,9 +78,6 @@ public class PbfSaques implements Serializable {
     private String mesCompetencia;
     @Column(name = "Ano_Competencia")
     private String anoCompetencia;
-    @Column(name = "Data_Saque")
-    @Temporal(TemporalType.DATE)
-    private Date dataSaque;
     @Column(name = "Atualizacao")
     private String atualizacao;
     @Column(name = "Origem")
@@ -67,19 +85,19 @@ public class PbfSaques implements Serializable {
     @Column(name = "Arquivo")
     private String arquivo;
 
-    public PbfSaques() {
+    public PbfPagamentos2017() {
     }
 
-    public PbfSaques(Long idPBFSAQUES) {
-        this.idPBFSAQUES = idPBFSAQUES;
+    public PbfPagamentos2017(Long idPBFPAGAMENTOS) {
+        this.idPBFPAGAMENTOS = idPBFPAGAMENTOS;
     }
 
-    public Long getIdPBFSAQUES() {
-        return idPBFSAQUES;
+    public Long getIdPBFPAGAMENTOS() {
+        return idPBFPAGAMENTOS;
     }
 
-    public void setIdPBFSAQUES(Long idPBFSAQUES) {
-        this.idPBFSAQUES = idPBFSAQUES;
+    public void setIdPBFPAGAMENTOS(Long idPBFPAGAMENTOS) {
+        this.idPBFPAGAMENTOS = idPBFPAGAMENTOS;
     }
 
     public String getUf() {
@@ -162,14 +180,6 @@ public class PbfSaques implements Serializable {
         this.fonteFinalidade = fonteFinalidade;
     }
 
-    public String getMesReferenciaParcela() {
-        return mesReferenciaParcela;
-    }
-
-    public void setMesReferenciaParcela(String mesReferenciaParcela) {
-        this.mesReferenciaParcela = mesReferenciaParcela;
-    }
-
     public Double getValorParcela() {
         return valorParcela;
     }
@@ -192,14 +202,6 @@ public class PbfSaques implements Serializable {
 
     public void setAnoCompetencia(String anoCompetencia) {
         this.anoCompetencia = anoCompetencia;
-    }
-
-    public Date getDataSaque() {
-        return dataSaque;
-    }
-
-    public void setDataSaque(Date dataSaque) {
-        this.dataSaque = dataSaque;
     }
 
     public String getAtualizacao() {
@@ -229,18 +231,18 @@ public class PbfSaques implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idPBFSAQUES != null ? idPBFSAQUES.hashCode() : 0);
+        hash += (idPBFPAGAMENTOS != null ? idPBFPAGAMENTOS.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PbfSaques)) {
+        if (!(object instanceof PbfPagamentos2017)) {
             return false;
         }
-        PbfSaques other = (PbfSaques) object;
-        if ((this.idPBFSAQUES == null && other.idPBFSAQUES != null) || (this.idPBFSAQUES != null && !this.idPBFSAQUES.equals(other.idPBFSAQUES))) {
+        PbfPagamentos2017 other = (PbfPagamentos2017) object;
+        if ((this.idPBFPAGAMENTOS == null && other.idPBFPAGAMENTOS != null) || (this.idPBFPAGAMENTOS != null && !this.idPBFPAGAMENTOS.equals(other.idPBFPAGAMENTOS))) {
             return false;
         }
         return true;
@@ -248,7 +250,7 @@ public class PbfSaques implements Serializable {
 
     @Override
     public String toString() {
-        return "model.PbfSaques[ idPBFSAQUES=" + idPBFSAQUES + " ]";
+        return "model.PbfPagamentos2017[ idPBFPAGAMENTOS=" + idPBFPAGAMENTOS + " ]";
     }
-
+    
 }

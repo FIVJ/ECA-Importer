@@ -1,7 +1,7 @@
 package functions;
 
-import dao.PbfPagamentosDAO;
-import dao.PbfSaquesDAO;
+import dao.PbfPagamentos2016DAO;
+import dao.PbfSaques2016DAO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,27 +11,28 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import model.PbfPagamentos;
-import model.PbfSaques;
+import model.PbfPagamentos2016;
+import model.PbfSaques2016;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author tassio
  */
-public class ImportDB {
-    
+public class ImportDB2016 {
+
     Logger logger = Logger.getLogger("Functions");
-    
-    public void importPBF_Payments() {
+
+    //2016
+    public void importPBF_Payments2016() {
         logger.trace("Starting Method importPBF_Payments");
-        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV");
+        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Pagamentos/2016");
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
         long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
-        
+
         for (int j = 1; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
@@ -40,9 +41,9 @@ public class ImportDB {
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
-                        
-                        PbfPagamentos pbf = new PbfPagamentos();
-                        
+
+                        PbfPagamentos2016 pbf = new PbfPagamentos2016();
+
                         pbf.setUf(data[0]);
                         pbf.setCodigoSIAFIMunicipio(Integer.parseInt(data[1]));
                         pbf.setNomeMunicipio(data[2]);
@@ -59,8 +60,8 @@ public class ImportDB {
                         pbf.setArquivo(fileCSV.getName());
                         pbf.setAtualizacao("Mensal");
                         pbf.setOrigem("Caixa Econômica Federal");
-                        
-                        PbfPagamentosDAO.getInstance().save(pbf);
+
+                        PbfPagamentos2016DAO.getInstance().save(pbf);
                     }
                     totalimport++;
                 }
@@ -80,16 +81,16 @@ public class ImportDB {
             }
         }
     }
-    
-    public void importPBF_Drawal() throws ParseException {
+
+    public void importPBF_Drawal2016() throws ParseException {
         logger.trace("Starting Method importPBF_Drawal");
-        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV");
+        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Saques/2016");
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
         long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
-        
+
         for (int j = 1; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
@@ -98,7 +99,7 @@ public class ImportDB {
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
-                        PbfSaques pbf = new PbfSaques();
+                        PbfSaques2016 pbf = new PbfSaques2016();
                         pbf.setUf(data[0]);
                         pbf.setCodigoSIAFIMunicipio(Integer.parseInt(data[1]));
                         pbf.setNomeMunicipio(data[2]);
@@ -121,7 +122,7 @@ public class ImportDB {
                             Date datasaque = formato.parse(data[13]);
                             pbf.setDataSaque(datasaque);
                         }
-                        PbfSaquesDAO.getInstance().save(pbf);
+                        PbfSaques2016DAO.getInstance().save(pbf);
                     }
                     totalimport++;
                 }
@@ -141,4 +142,5 @@ public class ImportDB {
             }
         }
     }
+
 }

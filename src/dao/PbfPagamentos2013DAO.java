@@ -2,7 +2,7 @@ package dao;
 
 import db.PersistenceUtil;
 import java.util.List;
-import model.PbfSaques;
+import model.PbfPagamentos2013;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -12,21 +12,21 @@ import org.hibernate.Transaction;
  *
  * @author tassio
  */
-public class PbfSaquesDAO {
+public class PbfPagamentos2013DAO {
 
     Logger logger = Logger.getLogger("DAO");
-    public static PbfSaquesDAO pbfDAO;
+    public static PbfPagamentos2013DAO pbfDAO;
 
-    public static PbfSaquesDAO getInstance() {
+    public static PbfPagamentos2013DAO getInstance() {
         if (pbfDAO == null) {
-            pbfDAO = new PbfSaquesDAO();
+            pbfDAO = new PbfPagamentos2013DAO();
         }
         return pbfDAO;
     }
 
     private Session session;
 
-    public void save(PbfSaques pbf) {
+    public void save(PbfPagamentos2013 pbf) {
         logger.trace("Start Method");
         Transaction tx = null;
         try {
@@ -44,12 +44,12 @@ public class PbfSaquesDAO {
         }
     }
 
-    public List<PbfSaques> getAll() {
+    public List<PbfPagamentos2013> getAll() {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("from PBF_SAQUES");
-            List<PbfSaques> list = query.list();
+            Query query = session.createQuery("from PBF_PAGAMENTOS");
+            List<PbfPagamentos2013> list = query.list();
             session.close();
             return list;
         } catch (Exception ex) {
@@ -59,12 +59,12 @@ public class PbfSaquesDAO {
         return null;
     }
 
-    public PbfSaques deletePbf(int id) {
+    public PbfPagamentos2013 deletePbf(int id) {
         logger.trace("Start Method");
         Transaction tx = null;
         try {
             session = (Session) PersistenceUtil.getSession();
-            PbfSaques pbf = (PbfSaques) session.get(PbfSaques.class, new Integer(id));
+            PbfPagamentos2013 pbf = (PbfPagamentos2013) session.get(PbfPagamentos2013.class, new Integer(id));
             tx = session.beginTransaction();
             session.delete(pbf);
             session.flush();
@@ -85,7 +85,7 @@ public class PbfSaquesDAO {
         try {
             session = (Session) PersistenceUtil.getSession();
             tx = session.beginTransaction();
-            Query query = session.createQuery("delete from PBF_SAQUES");
+            Query query = session.createQuery("delete from PBF_PAGAMENTOS_2013");
             query.executeUpdate();
             session.flush();
             tx.commit();

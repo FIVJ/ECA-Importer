@@ -5,6 +5,20 @@
     <class>model.Pbf</class>
     <class>model.PbfPagamentos</class>
     <class>model.PbfSaques</class>
+    <class>model.PbfPagamentos2016</class>
+    <class>model.PbfSaques2014</class>
+    <class>model.PbfPagamentos2013</class>
+    <class>model.PbfPagamentos2014</class>
+    <class>model.PbfSaques2012</class>
+    <class>model.PbfPagamentos2017</class>
+    <class>model.PbfPagamentos2011</class>
+    <class>model.PbfPagamentos2012</class>
+    <class>model.PbfSaques2017</class>
+    <class>model.PbfSaques2013</class>
+    <class>model.PbfSaques2011</class>
+    <class>model.PbfSaques2015</class>
+    <class>model.PbfSaques2016</class>
+    <class>model.PbfPagamentos2015</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecaTotal?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
