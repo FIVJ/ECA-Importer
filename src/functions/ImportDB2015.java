@@ -33,7 +33,7 @@ public class ImportDB2015 {
         long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
 
-        for (int j = 1; j < filesCSV.length; j++) {
+        for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
@@ -91,7 +91,7 @@ public class ImportDB2015 {
         long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
 
-        for (int j = 1; j < filesCSV.length; j++) {
+        for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));

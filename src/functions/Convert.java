@@ -24,7 +24,7 @@ public class Convert {
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
 
-        for (int j = 1; j < filesCSV.length; j++) {
+        for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName()), "ISO-8859-1");
@@ -62,7 +62,7 @@ public class Convert {
         File[] filesCSV = fInput.listFiles();
         long totalconvert = 0;
 
-        for (int j = 1; j < filesCSV.length; j++) {
+        for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName()), "ISO-8859-1");

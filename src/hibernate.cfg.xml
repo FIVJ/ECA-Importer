@@ -12,7 +12,19 @@
     <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
     <property name="show_sql">false</property>
     <property name="hbm2ddl.auto">validate</property>
-    <mapping class="model.PbfPagamentos"/>
-    <mapping class="model.PbfSaques"/>
+    <mapping class="model.PbfPagamentos2011"/>
+    <mapping class="model.PbfSaques2011"/>
+    <mapping class="model.PbfPagamentos2012"/>
+    <mapping class="model.PbfSaques2012"/>
+    <mapping class="model.PbfPagamentos2013"/>
+    <mapping class="model.PbfSaques2013"/>
+    <mapping class="model.PbfPagamentos2014"/>
+    <mapping class="model.PbfSaques2014"/>
+    <mapping class="model.PbfPagamentos2015"/>
+    <mapping class="model.PbfSaques2015"/>
+    <mapping class="model.PbfPagamentos2016"/>
+    <mapping class="model.PbfSaques2016"/>
+    <mapping class="model.PbfPagamentos2017"/>
+    <mapping class="model.PbfSaques2017"/>
   </session-factory>
 </hibernate-configuration>
