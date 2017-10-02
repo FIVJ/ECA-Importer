@@ -59,11 +59,11 @@ public class Convert {
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
-        File[] filesCSV = fInput.listFiles();
-        long totalconvert = 0;
+        File[] filesCSV = fInput.listFiles();        
 
         for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
+            long totalconvert = 0;
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName()), "ISO-8859-1");
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));

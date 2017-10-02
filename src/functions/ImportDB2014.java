@@ -30,11 +30,11 @@ public class ImportDB2014 {
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
-        long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
 
         for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
+            long totalimport = 0;
             try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
@@ -88,11 +88,11 @@ public class ImportDB2014 {
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
-        long totalimport = 0;
         File[] filesCSV = fInput.listFiles();
 
         for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
+            long totalimport = 0;
             try {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());

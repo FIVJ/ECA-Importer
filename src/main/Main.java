@@ -324,7 +324,7 @@ public class Main {
         //tcvt.start();
         //run threads imports
         imp11pg.start();
-        imp11sc.start();
+        /*imp11sc.start();
         imp12pg.start();
         imp12sc.start();
         imp13pg.start();
@@ -336,7 +336,7 @@ public class Main {
         imp16pg.start();
         imp16sc.start();
         imp17pg.start();
-        imp17sc.start();
+        imp17sc.start();*/
 
     }
 }
