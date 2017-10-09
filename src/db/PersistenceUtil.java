@@ -1,39 +1,51 @@
 package db;
 
-import org.hibernate.HibernateException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.tool.hbm2ddl.SchemaUpdate;
 
-public abstract class PersistenceUtil {
+public class PersistenceUtil {
 
-    private static SessionFactory sessionFactory;
+    private static final String PERSISTENCE_UNIT_NAME = "ECA";
+    private static EntityManagerFactory FACTORY;
+    private static ThreadLocal<EntityManager> MANAGER = new ThreadLocal<EntityManager>();
+    private static Session session;
 
-    private static final void inicializar() throws Exception {
-        try {
-            Configuration cfg = new Configuration();
-            cfg.configure();
-
-            new SchemaUpdate(cfg).execute(true, true);
-
-            sessionFactory = new AnnotationConfiguration().configure(
-                    "hibernate.cfg.xml").buildSessionFactory();
-        } catch (HibernateException e) {
-            throw new Exception("Error loading Hibernate: " + e.getMessage());
+    static {
+        if (FACTORY == null) {
+            try {
+                FACTORY = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+            } catch (Throwable e) {
+                System.out.println("A criacao o do EntityManagerFactory falhou: " + e);
+                throw new ExceptionInInitializerError(e);
+            }
         }
     }
 
-    public static Session getSession() throws Exception {
-        if (sessionFactory == null) {
-            inicializar();
+    public static EntityManager getEntityManager() {
+        EntityManager em = MANAGER.get();
+
+        if (em == null) {
+            em = FACTORY.createEntityManager();
+            MANAGER.set(em);
         }
-        try {
-            return sessionFactory.openSession();
-        } catch (HibernateException e) {
-            throw new Exception("Error creating Hibernate session: "
-                    + e.getMessage());
+        return em;
+    }
+
+    public static void closeEntityManager() {
+        EntityManager em = MANAGER.get();
+
+        if (em != null) {
+            em.close();
         }
+        MANAGER.set(null);
+    }
+
+    public static Session getSession() {
+        if (session == null) {
+            session = (Session) getEntityManager().getDelegate();
+        }
+        return session;
     }
 }

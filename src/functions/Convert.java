@@ -1,5 +1,6 @@
 package functions;
 
+import dao.TbCityDAO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import model.TbCity;
 
 /**
  *
@@ -15,10 +17,10 @@ import java.io.OutputStreamWriter;
  */
 public class Convert {
 
-    public void convertPBF_Payments() {
+    public void convertPBF_SQL_Payments() {
 
-        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV");
-        File fOutput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV_Converter");
+        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Pagamentos");
+        File fOutput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV_Converter/Pagamentos");
         BufferedReader br = null;
         String line = "";
         String csvDivisor = "\t";
@@ -26,66 +28,37 @@ public class Convert {
 
         for (int j = 0; j < filesCSV.length; j++) {
             File fileCSV = filesCSV[j];
+            long total = 0;
+            long idB = 0;
             try {
-                OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName()), "ISO-8859-1");
+                OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
-                    StrW.write(data[0] + ";" + data[1] + ";" + data[2] + ";" + data[3] + ";" + data[4] + ";" + data[5] + ";" + data[6] + ";" + data[7]
-                            + ";" + data[8] + ";" + data[9] + ";" + data[10] + ";" + fileCSV.getName().substring(4, 6) + ";" + fileCSV.getName().substring(0, 4) + "\n");
-                }
-                StrW.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+                    StrW.write("Use DB_ECA;");
+                    StrW.write("LOCK TABLES `tb_payments` WRITE;");
+                    if (total != 0) {
+                        String SQL, source;
+                        TbCity city;
 
-    public void convertPBF_Drawal() {
-
-        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV");
-        File fOutput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV_Converter");
-        BufferedReader br = null;
-        String line = "";
-        String csvDivisor = "\t";
-        File[] filesCSV = fInput.listFiles();        
-
-        for (int j = 0; j < filesCSV.length; j++) {
-            File fileCSV = filesCSV[j];
-            long totalconvert = 0;
-            try {
-                OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName()), "ISO-8859-1");
-                br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
-                System.out.println(fileCSV.getName());
-                while ((line = br.readLine()) != null) {
-
-                    String[] data = line.split(csvDivisor);
-                    if (totalconvert != 0) {
-                        if (data.length < 13) {
-                            String dp = "01/" + fileCSV.getName().substring(4, 6) + "/" + fileCSV.getName().substring(0, 4);
-                            StrW.write(data[0] + ";" + data[1] + ";" + data[2] + ";" + data[3] + ";" + data[4] + ";" + data[5] + ";" + data[6] + ";" + data[7]
-                                    + ";" + data[8] + ";" + data[9] + ";" + data[10] + ";" + data[11] + ";" + fileCSV.getName().substring(4, 6) + ";"
-                                    + fileCSV.getName().substring(0, 4) + ";" + dp + "\n");
+                        if (data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA")) {
+                            source = "1";
                         } else {
-                            StrW.write(data[0] + ";" + data[1] + ";" + data[2] + ";" + data[3] + ";" + data[4] + ";" + data[5] + ";" + data[6] + ";" + data[7]
-                                    + ";" + data[8] + ";" + data[9] + ";" + data[10] + ";" + data[11] + ";" + fileCSV.getName().substring(4, 6) + ";"
-                                    + fileCSV.getName().substring(0, 4) + ";" + data[13] + "\n");
+                            source = "2";
                         }
+                        city = TbCityDAO.getInstance().get(data[1]);
+
+                        //SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`)" + "VALUES" + "(" + "(SELECT id_city FROM DB_ECA.tb_city where str_cod_siafi_city=" + data[1] + ")," + "1," + "1," + "1," + "1," + "(SELECT id_beneficiaries FROM DB_ECA.tb_beneficiaries where str_nis=" + data[7] + ")," + source + "," + "1," + data[10].replaceAll(",", "") + ");";
+                        //SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`)" + "VALUES" + "(" + "(SELECT id_city FROM DB_ECA.tb_city where str_cod_siafi_city=" + data[1] + ")," + "1," + "1," + "1," + "1," + idB + "," + source + "," + "1," + data[10].replaceAll(",", "") + ");";
+                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`)" + "VALUES" + "(" + city.getIdCity() + "," + "1," + "1," + "1," + "1," + idB + "," + source + "," + "1," + data[10].replaceAll(",", "") + ");";
+
+                        StrW.write(SQL);
                     }
-                    totalconvert++;
-                    //System.out.println("Imports Total: " + totalconvert);
+                    idB++;
+                    total++;
                 }
+                StrW.write("UNLOCK TABLES;");
                 StrW.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -103,4 +76,7 @@ public class Convert {
         }
     }
 
+    public void validatePBF_Datas() {
+        //implementar
+    }
 }

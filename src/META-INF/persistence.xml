@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="PBF_CSVPU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>model.Pbf</class>
-    <class>model.PbfPagamentos</class>
-    <class>model.PbfSaques</class>
-    <class>model.PbfPagamentos2016</class>
-    <class>model.PbfSaques2014</class>
-    <class>model.PbfPagamentos2013</class>
-    <class>model.PbfPagamentos2014</class>
-    <class>model.PbfSaques2012</class>
-    <class>model.PbfPagamentos2017</class>
-    <class>model.PbfPagamentos2011</class>
-    <class>model.PbfPagamentos2012</class>
-    <class>model.PbfSaques2017</class>
-    <class>model.PbfSaques2013</class>
-    <class>model.PbfSaques2011</class>
-    <class>model.PbfSaques2015</class>
-    <class>model.PbfSaques2016</class>
-    <class>model.PbfPagamentos2015</class>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ecaTotal?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="ECA" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>model.TbAction</class>
+        <class>model.TbBeneficiaries</class>
+        <class>model.TbCity</class>
+        <class>model.TbFiles</class>
+        <class>model.TbFunctions</class>
+        <class>model.TbPayments</class>
+        <class>model.TbProgram</class>
+        <class>model.TbRegion</class>
+        <class>model.TbSource</class>
+        <class>model.TbState</class>
+        <class>model.TbSubfunctions</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/DB_ECA?zeroDateTimeBehavior=convertToNull"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="root"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
+        </properties>
+    </persistence-unit>
 </persistence>
