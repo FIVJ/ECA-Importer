@@ -37,7 +37,6 @@ public class TbActionDAO {
             logger.error("Unexpected error", e);
         } finally {
             logger.trace("Ended Method");
-            closeEntityManager();
         }
         return value;
     }

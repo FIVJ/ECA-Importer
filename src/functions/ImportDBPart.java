@@ -70,6 +70,10 @@ public class ImportDBPart {
                                 System.exit(1);
                             }
                         }
+
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                 }
@@ -116,13 +120,15 @@ public class ImportDBPart {
                     if (totalimport != 0) {
 
                         TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(data[3]);
-                        if (tbfunctions != null) {
+                        if (tbfunctions == null) {
                             tbfunctions = new TbFunctions();
                             tbfunctions.setStrCodFunction(data[3]);
                             tbfunctions.setStrNameFunction("Unknown".toUpperCase());
                             TbFunctionsDAO.getInstance().save(tbfunctions);
                         }
-
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                 }
@@ -174,6 +180,9 @@ public class ImportDBPart {
                             tbsubfunctions.setStrCodSubfunction(data[4]);
                             tbsubfunctions.setStrNameSubfunction("Unknown".toUpperCase());
                             TbSubfunctionsDAO.getInstance().save(tbsubfunctions);
+                        }
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
                         }
                     }
                     totalimport++;
@@ -227,6 +236,9 @@ public class ImportDBPart {
                             tbprogram.setStrNameProgram("Unknown".toUpperCase());
                             TbProgramDAO.getInstance().save(tbprogram);
                         }
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                 }
@@ -279,6 +291,9 @@ public class ImportDBPart {
                             tbaction.setStrNameAction("Unknown".toUpperCase());
                             TbActionDAO.getInstance().save(tbaction);
                         }
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                 }
@@ -324,12 +339,16 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().get(data[7]);
+                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
                         if (tbbeneficiaries == null) {
                             tbbeneficiaries = new TbBeneficiaries();
                             tbbeneficiaries.setStrNis(data[7]);
                             tbbeneficiaries.setStrNamePerson(data[8].toUpperCase());
-                            TbBeneficiariesDAO.getInstance().save(tbbeneficiaries);
+                            TbBeneficiariesDAO.getInstance().persist(tbbeneficiaries);
+                        }
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                            System.gc();
                         }
                     }
                     totalimport++;
@@ -384,7 +403,9 @@ public class ImportDBPart {
                             tbsource.setStrPeriodicity("Mensal".toUpperCase());
                             TbSourceDAO.getInstance().save(tbsource);
                         }
-
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                 }
@@ -424,7 +445,7 @@ public class ImportDBPart {
             File fileCSV = filesCSV1;
 
             TbFiles tbfiles = TbFilesDAO.getInstance().get(fileCSV.getName().toUpperCase());
-            if (tbfiles != null) {
+            if (tbfiles == null) {
                 tbfiles = new TbFiles();
                 tbfiles.setStrNameFile(fileCSV.getName().toUpperCase());
                 tbfiles.setStrMonth(fileCSV.getName().substring(4, 6));
@@ -510,6 +531,10 @@ public class ImportDBPart {
 
                         tbpayments.setDbValue(Double.parseDouble(data[10].replaceAll(",", "")));
                         TbPaymentsDAO.getInstance().persist(tbpayments);
+
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
                     }
                     totalimport++;
                     idB++;

@@ -157,6 +157,10 @@ public class ImportDBFull {
 
                         tbpayments.setDbValue(Double.parseDouble(data[10].replaceAll(",", "")));
                         TbPaymentsDAO.getInstance().save(tbpayments);
+
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports = " + totalimport);
+                        }
                     }
                     totalimport++;
                 }

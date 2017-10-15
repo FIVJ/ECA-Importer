@@ -38,7 +38,6 @@ public class TbSubfunctionsDAO {
             logger.error("Unexpected error", e);
         } finally {
             logger.trace("Ended Method");
-            closeEntityManager();
         }
 
         return value;

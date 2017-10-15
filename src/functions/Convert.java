@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import model.TbBeneficiaries;
 import model.TbCity;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,8 +20,10 @@ import model.TbCity;
  */
 public class Convert {
 
-    public void convertPBF_SQL_Payments() {
+    Logger logger = Logger.getLogger("Functions");
 
+    public void convertPBF_SQL_Payments() {
+        logger.trace("Starting Method Convert");
         File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Pagamentos");
         File fOutput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV_Converter/Pagamentos");
         BufferedReader br = null;
@@ -63,15 +66,16 @@ public class Convert {
                 StrW.write("UNLOCK TABLES;");
                 StrW.close();
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                logger.error("Unexpected error", e);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Unexpected error", e);
             } finally {
                 if (br != null) {
                     try {
                         br.close();
+                        logger.trace("Ended Method Convert");
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        logger.error("Unexpected error", e);
                     }
                 }
             }
@@ -79,6 +83,68 @@ public class Convert {
     }
 
     public void validatePBF_Datas() {
-        //implementar
+        logger.trace("Starting Method Validation Data");
+        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Pagamentos");
+        BufferedReader br = null;
+        String line = "";
+        String csvDivisor = "\t";
+        File[] filesCSV = fInput.listFiles();
+
+        for (File filesCSV1 : filesCSV) {
+            long StartTime = System.currentTimeMillis();
+            File fileCSV = filesCSV1;
+            long totalimport = 0;
+            try {
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
+                System.out.println(fileCSV.getName());
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(csvDivisor);
+                    if (totalimport != 0) {
+
+                        if (!data[3].equals("08")) {
+                            System.out.println("New function detected \n Value: " + data[3]);
+                        }
+
+                        if (!data[4].equals("244")) {
+                            System.out.println("New subfunction detected \n Value: " + data[4]);
+                        }
+
+                        if (!data[5].equals("1335")) {
+                            System.out.println("New program detected \n Value: " + data[5]);
+                        }
+
+                        if (!data[6].equals("8442")) {
+                            System.out.println("New Action detected \n Value: " + data[6]);
+                        }
+
+                        if (!data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA")) {
+                            if (!data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA (GDF)")) {
+                                System.out.println("New source detected \n Value: " + data[9].toUpperCase());
+                            }
+                        }
+                    }
+                    totalimport++;
+                }
+                long EndTime = System.currentTimeMillis();
+                long totalms = ((EndTime - StartTime));
+                long totalsec = (totalms / 1000) % 60;
+                long totalmin = (totalms / 60000) % 60;
+                long totalh = (totalms / 3600000);
+                System.out.println("File " + fileCSV.getName() + " - Total time ('HHH':'mm':'ss'.'SSSSS'): " + String.format("%03d:%02d:%02d.%03d", totalh, totalmin, totalsec, totalms));
+            } catch (FileNotFoundException e) {
+                logger.error("Unexpected error", e);
+            } catch (IOException e) {
+                logger.error("Unexpected error", e);
+            } finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                        logger.trace("Ended Method Validation");
+                    } catch (IOException e) {
+                        logger.error("Unexpected error", e);
+                    }
+                }
+            }
+        }
     }
 }

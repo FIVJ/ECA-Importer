@@ -38,9 +38,39 @@ public class TbBeneficiariesDAO {
             logger.error("Unexpected error", e);
         } finally {
             logger.trace("Ended Method");
-            closeEntityManager();
         }
         return value;
+    }
+
+    public void persist(TbBeneficiaries value) {
+        logger.trace("Start Method");
+        EntityManager em = PersistenceUtil.getEntityManager();
+        em.getTransaction().begin();
+        try {
+            em.persist(value);
+            em.getTransaction().commit();
+        } catch (RuntimeException e) {
+            em.getTransaction().rollback();
+            logger.error("Unexpected error", e);
+        } finally {
+            logger.trace("Ended Method");
+        }
+    }
+
+    public void insert(String value) {
+        logger.trace("Start Method");
+        EntityManager em = PersistenceUtil.getEntityManager();
+        em.getTransaction().begin();
+        try {
+            javax.persistence.Query query = em.createQuery(value);
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            logger.error("Unexpected error", e);
+            em.getTransaction().rollback();
+        } finally {
+            logger.trace("Ended Method");
+        }
     }
 
     public List<TbBeneficiaries> getAll() {
@@ -67,6 +97,27 @@ public class TbBeneficiariesDAO {
             Query query = session.createQuery("select a from TbBeneficiaries as a where a.strNis=:value");
             query.setParameter("value", value);
             query.setCacheable(true);
+
+            List<TbBeneficiaries> instances = query.list();
+            if (instances != null && instances.size() > 0) {
+                return instances.get(0);
+            }
+            return null;
+        } catch (Exception ex) {
+            logger.error("Unexpected error", ex);
+        } finally {
+            logger.trace("Ended Method");
+        }
+        return null;
+    }
+
+    public TbBeneficiaries search(String value1, String value2) {
+        logger.trace("Start Method");
+        try {
+            session = PersistenceUtil.getSession();
+            Query query = session.createQuery("select a from TbBeneficiaries as a where a.strNis=:valueA and a.strNamePerson=:valueB");
+            query.setParameter("valueA", value1);
+            query.setParameter("valueB", value2);
 
             List<TbBeneficiaries> instances = query.list();
             if (instances != null && instances.size() > 0) {

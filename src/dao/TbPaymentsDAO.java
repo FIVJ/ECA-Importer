@@ -8,7 +8,6 @@ import model.TbPayments;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
@@ -71,7 +70,6 @@ public class TbPaymentsDAO {
             em.getTransaction().rollback();
         } finally {
             logger.trace("Ended Method");
-            //closeEntityManager();
         }
     }
 

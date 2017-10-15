@@ -67,7 +67,9 @@ public class ImportDBOpt {
                                 + data[10].replaceAll(",", "") + ");";
 
                         TbPaymentsDAO.getInstance().insert(SQL);
-                        //System.out.println(SQL);
+                        if (totalimport % 1000 == 0) {
+                            System.out.println("Imports =" + totalimport);
+                        }
 
                     }
                     totalimport++;

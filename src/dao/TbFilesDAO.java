@@ -38,7 +38,6 @@ public class TbFilesDAO {
             logger.error("Unexpected error", e);
         } finally {
             logger.trace("Ended Method");
-            closeEntityManager();
         }
 
         return value;
@@ -58,7 +57,7 @@ public class TbFilesDAO {
         }
         return null;
     }
-    
+
     private static Session session;
 
     public TbFiles get(String value) {
