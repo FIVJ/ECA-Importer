@@ -71,8 +71,8 @@ public class ImportDBPart {
                             }
                         }
 
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -126,8 +126,8 @@ public class ImportDBPart {
                             tbfunctions.setStrNameFunction("Unknown".toUpperCase());
                             TbFunctionsDAO.getInstance().save(tbfunctions);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -181,8 +181,8 @@ public class ImportDBPart {
                             tbsubfunctions.setStrNameSubfunction("Unknown".toUpperCase());
                             TbSubfunctionsDAO.getInstance().save(tbsubfunctions);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -236,8 +236,8 @@ public class ImportDBPart {
                             tbprogram.setStrNameProgram("Unknown".toUpperCase());
                             TbProgramDAO.getInstance().save(tbprogram);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -291,8 +291,8 @@ public class ImportDBPart {
                             tbaction.setStrNameAction("Unknown".toUpperCase());
                             TbActionDAO.getInstance().save(tbaction);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -346,8 +346,8 @@ public class ImportDBPart {
                             tbbeneficiaries.setStrNamePerson(data[8].toUpperCase());
                             TbBeneficiariesDAO.getInstance().persist(tbbeneficiaries);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                             System.gc();
                         }
                     }
@@ -403,8 +403,8 @@ public class ImportDBPart {
                             tbsource.setStrPeriodicity("Mensal".toUpperCase());
                             TbSourceDAO.getInstance().save(tbsource);
                         }
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;
@@ -532,8 +532,8 @@ public class ImportDBPart {
                         tbpayments.setDbValue(Double.parseDouble(data[10].replaceAll(",", "")));
                         TbPaymentsDAO.getInstance().persist(tbpayments);
 
-                        if (totalimport % 1000 == 0) {
-                            System.out.println("Imports =" + totalimport);
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Imports = " + totalimport);
                         }
                     }
                     totalimport++;

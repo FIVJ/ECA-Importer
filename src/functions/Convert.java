@@ -31,8 +31,7 @@ public class Convert {
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
 
-        for (int j = 0; j < filesCSV.length; j++) {
-            File fileCSV = filesCSV[j];
+        for (File fileCSV : filesCSV) {
             long total = 0;
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
@@ -43,7 +42,7 @@ public class Convert {
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
 
-                    if (total != 0) {
+                    if (total > 0 && total <= 5000000) {
                         String SQL, source;
                         TbCity city;
                         TbBeneficiaries beneficiaries;
@@ -54,11 +53,15 @@ public class Convert {
                             source = "2";
                         }
                         city = TbCityDAO.getInstance().get(data[1]);
-                        beneficiaries = TbBeneficiariesDAO.getInstance().search(data[7],data[8].toUpperCase());
+                        beneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
 
-                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`)" + "VALUES" + "(" + city.getIdCity() + "," + "1," + "1," + "1," + "1," + beneficiaries + "," + source + "," + "1," + data[10].replaceAll(",", "") + ");";
+                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`) VALUES ('" + city.getIdCity() + "'," + "1," + "1," + "1," + "1," + beneficiaries.getIdBeneficiaries() + "," + source + "," + "2," + data[10].replaceAll(",", "") + ");";
 
                         StrW.write(SQL);
+
+                        if (total % 10000 == 0) {
+                            System.out.println("Lines = " + total);
+                        }
                     }
                     total++;
                 }
@@ -92,35 +95,37 @@ public class Convert {
         String SQL;
         TbBeneficiaries beneficiaries;
 
-        for (int j = 0; j < filesCSV.length; j++) {
-            File fileCSV = filesCSV[j];
+        for (File fileCSV : filesCSV) {
             long total = 0;
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
-                StrW.write("Use DB_ECA;");
-                StrW.write("LOCK TABLES `tb_beneficiaries` WRITE;");
+                StrW.write("Use DB_ECA;\n");
+                StrW.write("LOCK TABLES `tb_beneficiaries` WRITE;\n");
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
 
-                    //verificação por partes
-                    if (total != 0 && total >= 9000000 && total <= 10000000) {
+                    if (total > 0) {
 
                         beneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
                         if (beneficiaries == null) {
-                            SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + data[7] + ",'" + data[8].toUpperCase() + "');";
+                            SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + data[7] + ",'" + data[8].toUpperCase() + "');\n";
                             StrW.write(SQL);
                         }
 
                         if (total % 10000 == 0) {
                             System.out.println("Lines = " + total);
+                            StrW.flush();
+                            System.gc();
+                            System.runFinalization();
                             System.gc();
                         }
                     }
                     total++;
                 }
-                StrW.write("UNLOCK TABLES;");
+                StrW.write("UNLOCK TABLES;\n");
+                StrW.write("OPTIMIZE TABLE `DB_ECA`.`tb_beneficiaries`;\n");
                 StrW.close();
             } catch (FileNotFoundException e) {
                 logger.error("Unexpected error", e);

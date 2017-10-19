@@ -96,7 +96,6 @@ public class TbBeneficiariesDAO {
             session = PersistenceUtil.getSession();
             Query query = session.createQuery("select a from TbBeneficiaries as a where a.strNis=:value");
             query.setParameter("value", value);
-            query.setCacheable(true);
 
             List<TbBeneficiaries> instances = query.list();
             if (instances != null && instances.size() > 0) {
