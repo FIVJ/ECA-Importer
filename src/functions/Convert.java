@@ -93,7 +93,6 @@ public class Convert {
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
         String SQL;
-        TbBeneficiaries beneficiaries;
 
         for (File fileCSV : filesCSV) {
             long total = 0;
@@ -108,7 +107,7 @@ public class Convert {
 
                     if (total > 0) {
 
-                        beneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
+                        TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(data[7]);
                         if (beneficiaries == null) {
                             SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + data[7] + ",'" + data[8].toUpperCase() + "');\n";
                             StrW.write(SQL);
