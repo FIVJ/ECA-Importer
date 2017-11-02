@@ -1,7 +1,6 @@
 package functions;
 
 import dao.TbBeneficiariesDAO;
-import dao.TbCityDAO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import model.TbBeneficiaries;
-import model.TbCity;
 import org.apache.log4j.Logger;
 
 /**
@@ -44,18 +42,14 @@ public class Convert {
 
                     if (total > 0 && total <= 5000000) {
                         String SQL, source;
-                        TbCity city;
-                        TbBeneficiaries beneficiaries;
 
                         if (data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA")) {
                             source = "1";
                         } else {
                             source = "2";
                         }
-                        city = TbCityDAO.getInstance().get(data[1]);
-                        beneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
 
-                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`) VALUES ('" + city.getIdCity() + "'," + "1," + "1," + "1," + "1," + beneficiaries.getIdBeneficiaries() + "," + source + "," + "2," + data[10].replaceAll(",", "") + ");";
+                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`) VALUES (" + Integer.parseInt(data[1]) + "," + Integer.parseInt(data[3]) + "," + Integer.parseInt(data[4]) + "," + Integer.parseInt(data[5]) + "," + Integer.parseInt(data[6]) + "," + Long.parseLong(data[7]) + "," + source + "," + "1," + Double.parseDouble(data[10]) + ");";
 
                         StrW.write(SQL);
 
@@ -107,9 +101,9 @@ public class Convert {
 
                     if (total > 0) {
 
-                        TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(data[7]);
+                        TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
                         if (beneficiaries == null) {
-                            SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + data[7] + ",'" + data[8].toUpperCase() + "');\n";
+                            SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + Long.parseLong(data[7]) + ",'" + data[8].toUpperCase() + "');\n";
                             StrW.write(SQL);
                         }
 

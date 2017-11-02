@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,22 +30,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TbCity.findAll", query = "SELECT t FROM TbCity t")
-    , @NamedQuery(name = "TbCity.findByIdCity", query = "SELECT t FROM TbCity t WHERE t.idCity = :idCity")
     , @NamedQuery(name = "TbCity.findByStrNameCity", query = "SELECT t FROM TbCity t WHERE t.strNameCity = :strNameCity")
-    , @NamedQuery(name = "TbCity.findByStrCodSiafiCity", query = "SELECT t FROM TbCity t WHERE t.strCodSiafiCity = :strCodSiafiCity")})
+    , @NamedQuery(name = "TbCity.findByIntCodSiafiCity", query = "SELECT t FROM TbCity t WHERE t.intCodSiafiCity = :intCodSiafiCity")})
 public class TbCity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_city")
-    private Integer idCity;
     @Column(name = "str_name_city")
     private String strNameCity;
+    @Id
     @Basic(optional = false)
-    @Column(name = "str_cod_siafi_city")
-    private String strCodSiafiCity;
+    @Column(name = "int_cod_siafi_city")
+    private Integer intCodSiafiCity;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbCityIdCity")
     private List<TbPayments> tbPaymentsList;
     @JoinColumn(name = "tb_state_id_state", referencedColumnName = "id_state")
@@ -57,21 +51,13 @@ public class TbCity implements Serializable {
     public TbCity() {
     }
 
-    public TbCity(Integer idCity) {
-        this.idCity = idCity;
+    public TbCity(Integer intCodSiafiCity) {
+        this.intCodSiafiCity = intCodSiafiCity;
     }
 
-    public TbCity(Integer idCity, String strCodSiafiCity) {
-        this.idCity = idCity;
-        this.strCodSiafiCity = strCodSiafiCity;
-    }
-
-    public Integer getIdCity() {
-        return idCity;
-    }
-
-    public void setIdCity(Integer idCity) {
-        this.idCity = idCity;
+    public TbCity(Integer intCodSiafiCity, String strNameCity) {
+        this.intCodSiafiCity = intCodSiafiCity;
+        this.strNameCity = strNameCity;
     }
 
     public String getStrNameCity() {
@@ -82,12 +68,12 @@ public class TbCity implements Serializable {
         this.strNameCity = strNameCity;
     }
 
-    public String getStrCodSiafiCity() {
-        return strCodSiafiCity;
+    public Integer getIntCodSiafiCity() {
+        return intCodSiafiCity;
     }
 
-    public void setStrCodSiafiCity(String strCodSiafiCity) {
-        this.strCodSiafiCity = strCodSiafiCity;
+    public void setIntCodSiafiCity(Integer intCodSiafiCity) {
+        this.intCodSiafiCity = intCodSiafiCity;
     }
 
     @XmlTransient
@@ -110,7 +96,7 @@ public class TbCity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idCity != null ? idCity.hashCode() : 0);
+        hash += (intCodSiafiCity != null ? intCodSiafiCity.hashCode() : 0);
         return hash;
     }
 
@@ -121,7 +107,7 @@ public class TbCity implements Serializable {
             return false;
         }
         TbCity other = (TbCity) object;
-        if ((this.idCity == null && other.idCity != null) || (this.idCity != null && !this.idCity.equals(other.idCity))) {
+        if ((this.intCodSiafiCity == null && other.intCodSiafiCity != null) || (this.intCodSiafiCity != null && !this.intCodSiafiCity.equals(other.intCodSiafiCity))) {
             return false;
         }
         return true;
@@ -129,7 +115,7 @@ public class TbCity implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbCity[ idCity=" + idCity + " ]";
+        return "model.TbCity[ intCodSiafiCity=" + intCodSiafiCity + " ]";
     }
-
+    
 }

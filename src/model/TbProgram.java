@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,20 +28,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TbProgram.findAll", query = "SELECT t FROM TbProgram t")
-    , @NamedQuery(name = "TbProgram.findByIdProgram", query = "SELECT t FROM TbProgram t WHERE t.idProgram = :idProgram")
-    , @NamedQuery(name = "TbProgram.findByStrCodProgram", query = "SELECT t FROM TbProgram t WHERE t.strCodProgram = :strCodProgram")
+    , @NamedQuery(name = "TbProgram.findByIntCodProgram", query = "SELECT t FROM TbProgram t WHERE t.intCodProgram = :intCodProgram")
     , @NamedQuery(name = "TbProgram.findByStrNameProgram", query = "SELECT t FROM TbProgram t WHERE t.strNameProgram = :strNameProgram")})
 public class TbProgram implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_program")
-    private Integer idProgram;
-    @Basic(optional = false)
-    @Column(name = "str_cod_program")
-    private String strCodProgram;
+    @Column(name = "int_cod_program")
+    private Integer intCodProgram;
     @Column(name = "str_name_program")
     private String strNameProgram;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbProgramIdProgram")
@@ -52,29 +45,16 @@ public class TbProgram implements Serializable {
     public TbProgram() {
     }
 
-    public TbProgram(Integer idProgram) {
-        this.idProgram = idProgram;
+    public TbProgram(Integer intCodProgram) {
+        this.intCodProgram = intCodProgram;
     }
 
-    public TbProgram(Integer idProgram, String strCodProgram) {
-        this.idProgram = idProgram;
-        this.strCodProgram = strCodProgram;
+    public Integer getIntCodProgram() {
+        return intCodProgram;
     }
 
-    public Integer getIdProgram() {
-        return idProgram;
-    }
-
-    public void setIdProgram(Integer idProgram) {
-        this.idProgram = idProgram;
-    }
-
-    public String getStrCodProgram() {
-        return strCodProgram;
-    }
-
-    public void setStrCodProgram(String strCodProgram) {
-        this.strCodProgram = strCodProgram;
+    public void setIntCodProgram(Integer intCodProgram) {
+        this.intCodProgram = intCodProgram;
     }
 
     public String getStrNameProgram() {
@@ -97,7 +77,7 @@ public class TbProgram implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idProgram != null ? idProgram.hashCode() : 0);
+        hash += (intCodProgram != null ? intCodProgram.hashCode() : 0);
         return hash;
     }
 
@@ -108,7 +88,7 @@ public class TbProgram implements Serializable {
             return false;
         }
         TbProgram other = (TbProgram) object;
-        if ((this.idProgram == null && other.idProgram != null) || (this.idProgram != null && !this.idProgram.equals(other.idProgram))) {
+        if ((this.intCodProgram == null && other.intCodProgram != null) || (this.intCodProgram != null && !this.intCodProgram.equals(other.intCodProgram))) {
             return false;
         }
         return true;
@@ -116,7 +96,7 @@ public class TbProgram implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbProgram[ idProgram=" + idProgram + " ]";
+        return "model.TbProgram[ intCodProgram=" + intCodProgram + " ]";
     }
-
+    
 }

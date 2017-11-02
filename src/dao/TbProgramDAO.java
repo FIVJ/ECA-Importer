@@ -60,11 +60,11 @@ public class TbProgramDAO {
 
     private static Session session;
 
-    public TbProgram get(String value) {
+    public TbProgram get(int value) {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("select a from TbProgram as a where  a.strCodProgram=:value");
+            Query query = session.createQuery("select a from TbProgram as a where  a.intCodProgram=:value");
             query.setParameter("value", value);
             query.setCacheable(true);
 

@@ -58,11 +58,11 @@ public class TbActionDAO {
 
     private static Session session;
     
-    public TbAction get(String value) {
+    public TbAction get(int value) {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("select a from TbAction as a where  a.strCodAction=:value");
+            Query query = session.createQuery("select a from TbAction as a where  a.intCodAction=:value");
             query.setParameter("value", value);
             query.setCacheable(true);
 

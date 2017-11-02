@@ -90,11 +90,11 @@ public class TbBeneficiariesDAO {
 
     private static Session session;
 
-    public TbBeneficiaries get(String value) {
+    public TbBeneficiaries get(Long value) {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("select a from TbBeneficiaries as a where a.strNis=:value");
+            Query query = session.createQuery("select a from TbBeneficiaries as a where a.intNis=:value");
             query.setParameter("value", value);
 
             List<TbBeneficiaries> instances = query.list();

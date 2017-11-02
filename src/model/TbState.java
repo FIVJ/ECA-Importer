@@ -131,5 +131,5 @@ public class TbState implements Serializable {
     public String toString() {
         return "model.TbState[ idState=" + idState + " ]";
     }
-
+    
 }

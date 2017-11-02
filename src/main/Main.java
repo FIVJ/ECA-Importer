@@ -256,21 +256,21 @@ public class Main {
         //Imports for ports the datas
         //impPBFBeneficiaries.start();
         //impPBFFiles.start();
-        /*impPBFAction.start();
-        impPBFCities.start();
-        impPBFFunctions.start();
-        impPBFProgram.start();
-        impPBFSource.start();
-        impPBFSubFunction.start();*/
+        //impPBFAction.start();
+        //impPBFCities.start();
+        //impPBFFunctions.start();
+        //impPBFProgram.start();
+        //impPBFSource.start();
+        //impPBFSubFunction.start();
         //Imports payments, but needs of functions after.
-        //impPBFPayments.start();
+        impPBFPayments.start();
         //Imports all datas in all files
         //impPBFFull.start();
         //Imports payments via SQL
         //impPBFOPT.start();
         //Geration SQL Import
         //ConvertSQLPayment.start();
-        ConvertSQLBenficiaries.start();
+        //ConvertSQLBenficiaries.start();
         //Validate Data Import
         //ValidateData.start();
     }

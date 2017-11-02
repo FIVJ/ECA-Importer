@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,51 +28,39 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TbSubfunctions.findAll", query = "SELECT t FROM TbSubfunctions t")
-    , @NamedQuery(name = "TbSubfunctions.findByIdSubfunction", query = "SELECT t FROM TbSubfunctions t WHERE t.idSubfunction = :idSubfunction")
-    , @NamedQuery(name = "TbSubfunctions.findByStrCodSubfunction", query = "SELECT t FROM TbSubfunctions t WHERE t.strCodSubfunction = :strCodSubfunction")
+    , @NamedQuery(name = "TbSubfunctions.findByIntCodSubfunction", query = "SELECT t FROM TbSubfunctions t WHERE t.intCodSubfunction = :intCodSubfunction")
     , @NamedQuery(name = "TbSubfunctions.findByStrNameSubfunction", query = "SELECT t FROM TbSubfunctions t WHERE t.strNameSubfunction = :strNameSubfunction")})
 public class TbSubfunctions implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_subfunction")
-    private Integer idSubfunction;
+    @Column(name = "int_cod_subfunction")
+    private Integer intCodSubfunction;
     @Basic(optional = false)
-    @Column(name = "str_cod_subfunction")
-    private String strCodSubfunction;
     @Column(name = "str_name_subfunction")
     private String strNameSubfunction;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbSubfunctionsIdSubfunction")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbSubfunctionIdSubfunction")
     private List<TbPayments> tbPaymentsList;
 
     public TbSubfunctions() {
     }
 
-    public TbSubfunctions(Integer idSubfunction) {
-        this.idSubfunction = idSubfunction;
+    public TbSubfunctions(Integer intCodSubfunction) {
+        this.intCodSubfunction = intCodSubfunction;
     }
 
-    public TbSubfunctions(Integer idSubfunction, String strCodSubfunction) {
-        this.idSubfunction = idSubfunction;
-        this.strCodSubfunction = strCodSubfunction;
+    public TbSubfunctions(Integer intCodSubfunction, String strNameSubfunction) {
+        this.intCodSubfunction = intCodSubfunction;
+        this.strNameSubfunction = strNameSubfunction;
     }
 
-    public Integer getIdSubfunction() {
-        return idSubfunction;
+    public Integer getIntCodSubfunction() {
+        return intCodSubfunction;
     }
 
-    public void setIdSubfunction(Integer idSubfunction) {
-        this.idSubfunction = idSubfunction;
-    }
-
-    public String getStrCodSubfunction() {
-        return strCodSubfunction;
-    }
-
-    public void setStrCodSubfunction(String strCodSubfunction) {
-        this.strCodSubfunction = strCodSubfunction;
+    public void setIntCodSubfunction(Integer intCodSubfunction) {
+        this.intCodSubfunction = intCodSubfunction;
     }
 
     public String getStrNameSubfunction() {
@@ -97,7 +83,7 @@ public class TbSubfunctions implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idSubfunction != null ? idSubfunction.hashCode() : 0);
+        hash += (intCodSubfunction != null ? intCodSubfunction.hashCode() : 0);
         return hash;
     }
 
@@ -108,7 +94,7 @@ public class TbSubfunctions implements Serializable {
             return false;
         }
         TbSubfunctions other = (TbSubfunctions) object;
-        if ((this.idSubfunction == null && other.idSubfunction != null) || (this.idSubfunction != null && !this.idSubfunction.equals(other.idSubfunction))) {
+        if ((this.intCodSubfunction == null && other.intCodSubfunction != null) || (this.intCodSubfunction != null && !this.intCodSubfunction.equals(other.intCodSubfunction))) {
             return false;
         }
         return true;
@@ -116,7 +102,7 @@ public class TbSubfunctions implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbSubfunctions[ idSubfunction=" + idSubfunction + " ]";
+        return "model.TbSubfunctions[ intCodSubfunction=" + intCodSubfunction + " ]";
     }
-
+    
 }

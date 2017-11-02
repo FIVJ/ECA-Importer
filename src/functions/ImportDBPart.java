@@ -62,7 +62,7 @@ public class ImportDBPart {
                             if (tbstate != null) {
                                 tbcity = new TbCity();
                                 tbcity.setTbStateIdState(tbstate);
-                                tbcity.setStrCodSiafiCity(data[1]);
+                                tbcity.setIntCodSiafiCity(Integer.parseInt(data[1]));
                                 tbcity.setStrNameCity(data[2].toUpperCase());
                                 TbCityDAO.getInstance().save(tbcity);
                             } else {
@@ -119,10 +119,10 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(data[3]);
+                        TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(Integer.parseInt(data[3]));
                         if (tbfunctions == null) {
                             tbfunctions = new TbFunctions();
-                            tbfunctions.setStrCodFunction(data[3]);
+                            tbfunctions.setIntCodFunction(Integer.parseInt(data[3]));
                             tbfunctions.setStrNameFunction("Unknown".toUpperCase());
                             TbFunctionsDAO.getInstance().save(tbfunctions);
                         }
@@ -174,10 +174,10 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbSubfunctions tbsubfunctions = TbSubfunctionsDAO.getInstance().get(data[4]);
+                        TbSubfunctions tbsubfunctions = TbSubfunctionsDAO.getInstance().get(Integer.parseInt(data[4]));
                         if (tbsubfunctions == null) {
                             tbsubfunctions = new TbSubfunctions();
-                            tbsubfunctions.setStrCodSubfunction(data[4]);
+                            tbsubfunctions.setIntCodSubfunction(Integer.parseInt(data[4]));
                             tbsubfunctions.setStrNameSubfunction("Unknown".toUpperCase());
                             TbSubfunctionsDAO.getInstance().save(tbsubfunctions);
                         }
@@ -229,10 +229,10 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbProgram tbprogram = TbProgramDAO.getInstance().get(data[5]);
+                        TbProgram tbprogram = TbProgramDAO.getInstance().get(Integer.parseInt(data[5]));
                         if (tbprogram == null) {
                             tbprogram = new TbProgram();
-                            tbprogram.setStrCodProgram(data[5]);
+                            tbprogram.setIntCodProgram(Integer.parseInt(data[5]));
                             tbprogram.setStrNameProgram("Unknown".toUpperCase());
                             TbProgramDAO.getInstance().save(tbprogram);
                         }
@@ -284,10 +284,10 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbAction tbaction = TbActionDAO.getInstance().get(data[6]);
+                        TbAction tbaction = TbActionDAO.getInstance().get(Integer.parseInt(data[6]));
                         if (tbaction == null) {
                             tbaction = new TbAction();
-                            tbaction.setStrCodAction(data[6]);
+                            tbaction.setIntCodAction(Integer.parseInt(data[6]));
                             tbaction.setStrNameAction("Unknown".toUpperCase());
                             TbActionDAO.getInstance().save(tbaction);
                         }
@@ -339,10 +339,10 @@ public class ImportDBPart {
                     String[] data = line.split(csvDivisor);
                     if (totalimport != 0) {
 
-                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().search(data[7], data[8].toUpperCase());
+                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
                         if (tbbeneficiaries == null) {
                             tbbeneficiaries = new TbBeneficiaries();
-                            tbbeneficiaries.setStrNis(data[7]);
+                            tbbeneficiaries.setIntNis(Long.parseLong(data[7]));
                             tbbeneficiaries.setStrNamePerson(data[8].toUpperCase());
                             TbBeneficiariesDAO.getInstance().persist(tbbeneficiaries);
                         }
@@ -485,33 +485,29 @@ public class ImportDBPart {
 
                         TbPayments tbpayments = new TbPayments();
 
-                        TbCity tbcity = TbCityDAO.getInstance().get(data[1]);
+                        TbCity tbcity = new TbCity();
+                        tbcity.setIntCodSiafiCity(Integer.parseInt(data[1]));
                         tbpayments.setTbCityIdCity(tbcity);
 
-                        //TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(data[3]);
                         TbFunctions tbfunctions = new TbFunctions();
-                        tbfunctions.setIdFunction(1);
-                        tbpayments.setTbFunctionsIdFunction(tbfunctions);
+                        tbfunctions.setIntCodFunction(Integer.parseInt(data[3]));
+                        tbpayments.setTbFunctionIdFunction(tbfunctions);
 
-                        //TbSubfunctions tbsubfunctions = TbSubfunctionsDAO.getInstance().get(data[4]);
                         TbSubfunctions tbsubfunctions = new TbSubfunctions();
-                        tbsubfunctions.setIdSubfunction(1);
-                        tbpayments.setTbSubfunctionsIdSubfunction(tbsubfunctions);
+                        tbsubfunctions.setIntCodSubfunction(Integer.parseInt(data[4]));
+                        tbpayments.setTbSubfunctionIdSubfunction(tbsubfunctions);
 
-                        //TbProgram tbprogram = TbProgramDAO.getInstance().get(data[5]);
                         TbProgram tbprogram = new TbProgram();
-                        tbprogram.setIdProgram(1);
+                        tbprogram.setIntCodProgram(Integer.parseInt(data[5]));
                         tbpayments.setTbProgramIdProgram(tbprogram);
 
-                        //TbAction tbaction = TbActionDAO.getInstance().get(data[6]);
                         TbAction tbaction = new TbAction();
-                        tbaction.setIdAction(1);
+                        tbaction.setIntCodAction(Integer.parseInt(data[6]));
                         tbpayments.setTbActionIdAction(tbaction);
 
-                        //TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().get(data[7]);
                         TbBeneficiaries tbbeneficiaries = new TbBeneficiaries();
-                        tbbeneficiaries.setIdBeneficiaries(idB);
-                        tbpayments.setTbBeneficiariesIdBeneficiaries(tbbeneficiaries);
+                        tbbeneficiaries.setIntNis(Long.parseLong(data[7]));
+                        tbpayments.setTbBeneficiariesIdBeneficiary(tbbeneficiaries);
 
                         //TbSource tbsource = TbSourceDAO.getInstance().get(data[9].toUpperCase());
                         if (data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA")) {
@@ -524,12 +520,12 @@ public class ImportDBPart {
                             tbpayments.setTbSourceIdSource(tbsource);
                         }
 
-                        //TbFiles tbfiles = TbFilesDAO.getInstance().get(fileCSV.getName().toUpperCase());
+                        //ver file na importação
                         TbFiles tbfiles = new TbFiles();
                         tbfiles.setIdFile(1);
                         tbpayments.setTbFilesIdFile(tbfiles);
 
-                        tbpayments.setDbValue(Double.parseDouble(data[10].replaceAll(",", "")));
+                        tbpayments.setDbValue(Double.parseDouble(data[10]));
                         TbPaymentsDAO.getInstance().persist(tbpayments);
 
                         if (totalimport % 10000 == 0) {

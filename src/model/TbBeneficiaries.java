@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,53 +28,39 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TbBeneficiaries.findAll", query = "SELECT t FROM TbBeneficiaries t")
-    , @NamedQuery(name = "TbBeneficiaries.findByIdBeneficiaries", query = "SELECT t FROM TbBeneficiaries t WHERE t.idBeneficiaries = :idBeneficiaries")
-    , @NamedQuery(name = "TbBeneficiaries.findByStrNis", query = "SELECT t FROM TbBeneficiaries t WHERE t.strNis = :strNis")
+    , @NamedQuery(name = "TbBeneficiaries.findByIntNis", query = "SELECT t FROM TbBeneficiaries t WHERE t.intNis = :intNis")
     , @NamedQuery(name = "TbBeneficiaries.findByStrNamePerson", query = "SELECT t FROM TbBeneficiaries t WHERE t.strNamePerson = :strNamePerson")})
 public class TbBeneficiaries implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_beneficiaries")
-    private Long idBeneficiaries;
-    @Basic(optional = false)
-    @Column(name = "str_nis")
-    private String strNis;
+    @Column(name = "int_nis")
+    private Long intNis;
     @Basic(optional = false)
     @Column(name = "str_name_person")
     private String strNamePerson;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbBeneficiariesIdBeneficiaries")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbBeneficiariesIdBeneficiary")
     private List<TbPayments> tbPaymentsList;
 
     public TbBeneficiaries() {
     }
 
-    public TbBeneficiaries(Long idBeneficiaries) {
-        this.idBeneficiaries = idBeneficiaries;
+    public TbBeneficiaries(Long intNis) {
+        this.intNis = intNis;
     }
 
-    public TbBeneficiaries(Long idBeneficiaries, String strNis, String strNamePerson) {
-        this.idBeneficiaries = idBeneficiaries;
-        this.strNis = strNis;
+    public TbBeneficiaries(Long intNis, String strNamePerson) {
+        this.intNis = intNis;
         this.strNamePerson = strNamePerson;
     }
 
-    public Long getIdBeneficiaries() {
-        return idBeneficiaries;
+    public Long getIntNis() {
+        return intNis;
     }
 
-    public void setIdBeneficiaries(Long idBeneficiaries) {
-        this.idBeneficiaries = idBeneficiaries;
-    }
-
-    public String getStrNis() {
-        return strNis;
-    }
-
-    public void setStrNis(String strNis) {
-        this.strNis = strNis;
+    public void setIntNis(Long intNis) {
+        this.intNis = intNis;
     }
 
     public String getStrNamePerson() {
@@ -99,7 +83,7 @@ public class TbBeneficiaries implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idBeneficiaries != null ? idBeneficiaries.hashCode() : 0);
+        hash += (intNis != null ? intNis.hashCode() : 0);
         return hash;
     }
 
@@ -110,7 +94,7 @@ public class TbBeneficiaries implements Serializable {
             return false;
         }
         TbBeneficiaries other = (TbBeneficiaries) object;
-        if ((this.idBeneficiaries == null && other.idBeneficiaries != null) || (this.idBeneficiaries != null && !this.idBeneficiaries.equals(other.idBeneficiaries))) {
+        if ((this.intNis == null && other.intNis != null) || (this.intNis != null && !this.intNis.equals(other.intNis))) {
             return false;
         }
         return true;
@@ -118,7 +102,7 @@ public class TbBeneficiaries implements Serializable {
 
     @Override
     public String toString() {
-        return "model.TbBeneficiaries[ idBeneficiaries=" + idBeneficiaries + " ]";
+        return "model.TbBeneficiaries[ intNis=" + intNis + " ]";
     }
-
+    
 }

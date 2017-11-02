@@ -45,8 +45,10 @@ public class TbFiles implements Serializable {
     @Basic(optional = false)
     @Column(name = "str_name_file")
     private String strNameFile;
+    @Basic(optional = false)
     @Column(name = "str_month")
     private String strMonth;
+    @Basic(optional = false)
     @Column(name = "str_year")
     private String strYear;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbFilesIdFile")
@@ -59,9 +61,11 @@ public class TbFiles implements Serializable {
         this.idFile = idFile;
     }
 
-    public TbFiles(Integer idFile, String strNameFile) {
+    public TbFiles(Integer idFile, String strNameFile, String strMonth, String strYear) {
         this.idFile = idFile;
         this.strNameFile = strNameFile;
+        this.strMonth = strMonth;
+        this.strYear = strYear;
     }
 
     public Integer getIdFile() {
@@ -129,5 +133,5 @@ public class TbFiles implements Serializable {
     public String toString() {
         return "model.TbFiles[ idFile=" + idFile + " ]";
     }
-
+    
 }

@@ -60,11 +60,11 @@ public class TbSubfunctionsDAO {
 
     private static Session session;
     
-    public TbSubfunctions get(String value) {
+    public TbSubfunctions get(int value) {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("select a from TbSubfunctions as a where  a.strCodSubfunction=:value");
+            Query query = session.createQuery("select a from TbSubfunctions as a where  a.intCodSubfunction=:value");
             query.setParameter("value", value);
             query.setCacheable(true);
 

@@ -66,7 +66,7 @@ public class ImportDBFull {
                             if (tbstate != null) {
                                 tbcity = new TbCity();
                                 tbcity.setTbStateIdState(tbstate);
-                                tbcity.setStrCodSiafiCity(data[1]);
+                                tbcity.setIntCodSiafiCity(Integer.parseInt(data[1]));
                                 tbcity.setStrNameCity(data[2].toUpperCase());
                                 tbcity = TbCityDAO.getInstance().save(tbcity);
                                 tbpayments.setTbCityIdCity(tbcity);
@@ -76,59 +76,59 @@ public class ImportDBFull {
                             }
                         }
 
-                        TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(data[3]);
+                        TbFunctions tbfunctions = TbFunctionsDAO.getInstance().get(Integer.parseInt(data[3]));
                         if (tbfunctions != null) {
-                            tbpayments.setTbFunctionsIdFunction(tbfunctions);
+                            tbpayments.setTbFunctionIdFunction(tbfunctions);
                         } else {
                             tbfunctions = new TbFunctions();
-                            tbfunctions.setStrCodFunction(data[3]);
+                            tbfunctions.setIntCodFunction(Integer.parseInt(data[3]));
                             tbfunctions.setStrNameFunction("Unknown".toUpperCase());
                             tbfunctions = TbFunctionsDAO.getInstance().save(tbfunctions);
-                            tbpayments.setTbFunctionsIdFunction(tbfunctions);
+                            tbpayments.setTbFunctionIdFunction(tbfunctions);
                         }
 
-                        TbSubfunctions tbsubfunctions = TbSubfunctionsDAO.getInstance().get(data[4]);
+                        TbSubfunctions tbsubfunctions = TbSubfunctionsDAO.getInstance().get(Integer.parseInt(data[4]));
                         if (tbsubfunctions != null) {
-                            tbpayments.setTbSubfunctionsIdSubfunction(tbsubfunctions);
+                            tbpayments.setTbSubfunctionIdSubfunction(tbsubfunctions);
                         } else {
                             tbsubfunctions = new TbSubfunctions();
-                            tbsubfunctions.setStrCodSubfunction(data[4]);
+                            tbsubfunctions.setIntCodSubfunction(Integer.parseInt(data[4]));
                             tbsubfunctions.setStrNameSubfunction("Unknown".toUpperCase());
                             tbsubfunctions = TbSubfunctionsDAO.getInstance().save(tbsubfunctions);
-                            tbpayments.setTbSubfunctionsIdSubfunction(tbsubfunctions);
+                            tbpayments.setTbSubfunctionIdSubfunction(tbsubfunctions);
                         }
 
-                        TbProgram tbprogram = TbProgramDAO.getInstance().get(data[5]);
+                        TbProgram tbprogram = TbProgramDAO.getInstance().get(Integer.parseInt(data[5]));
                         if (tbprogram != null) {
                             tbpayments.setTbProgramIdProgram(tbprogram);
                         } else {
                             tbprogram = new TbProgram();
-                            tbprogram.setStrCodProgram(data[5]);
+                            tbprogram.setIntCodProgram(Integer.parseInt(data[5]));
                             tbprogram.setStrNameProgram("Unknown".toUpperCase());
                             tbprogram = TbProgramDAO.getInstance().save(tbprogram);
                             tbpayments.setTbProgramIdProgram(tbprogram);
                         }
 
-                        TbAction tbaction = TbActionDAO.getInstance().get(data[6]);
+                        TbAction tbaction = TbActionDAO.getInstance().get(Integer.parseInt(data[6]));
                         if (tbaction != null) {
                             tbpayments.setTbActionIdAction(tbaction);
                         } else {
                             tbaction = new TbAction();
-                            tbaction.setStrCodAction(data[6]);
+                            tbaction.setIntCodAction(Integer.parseInt(data[6]));
                             tbaction.setStrNameAction("Unknown".toUpperCase());
                             tbaction = TbActionDAO.getInstance().save(tbaction);
                             tbpayments.setTbActionIdAction(tbaction);
                         }
 
-                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().get(data[7]);
+                        TbBeneficiaries tbbeneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
                         if (tbbeneficiaries != null) {
-                            tbpayments.setTbBeneficiariesIdBeneficiaries(tbbeneficiaries);
+                            tbpayments.setTbBeneficiariesIdBeneficiary(tbbeneficiaries);
                         } else {
                             tbbeneficiaries = new TbBeneficiaries();
-                            tbbeneficiaries.setStrNis(data[7]);
+                            tbbeneficiaries.setIntNis(Long.parseLong(data[7]));
                             tbbeneficiaries.setStrNamePerson(data[8].toUpperCase());
                             tbbeneficiaries = TbBeneficiariesDAO.getInstance().save(tbbeneficiaries);
-                            tbpayments.setTbBeneficiariesIdBeneficiaries(tbbeneficiaries);
+                            tbpayments.setTbBeneficiariesIdBeneficiary(tbbeneficiaries);
                         }
 
                         TbSource tbsource = TbSourceDAO.getInstance().get(data[9].toUpperCase());
@@ -155,7 +155,7 @@ public class ImportDBFull {
                             tbpayments.setTbFilesIdFile(tbfiles);
                         }
 
-                        tbpayments.setDbValue(Double.parseDouble(data[10].replaceAll(",", "")));
+                        tbpayments.setDbValue(Double.parseDouble(data[10]));
                         TbPaymentsDAO.getInstance().save(tbpayments);
 
                         if (totalimport % 1000 == 0) {
