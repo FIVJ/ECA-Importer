@@ -64,8 +64,8 @@ public class TbCityDAO {
         logger.trace("Start Method");
         try {
             session = PersistenceUtil.getSession();
-            Query query = session.createQuery("select a from TbCity as a where  a.strCodSiafiCity=:value");
-            query.setParameter("value", value);
+            Query query = session.createQuery("select a from TbCity as a where  a.intCodSiafiCity=:value");
+            query.setParameter("value", Integer.parseInt(value));
             query.setCacheable(true);
 
             List<TbCity> instances = query.list();

@@ -1,6 +1,7 @@
 package functions;
 
 import dao.TbBeneficiariesDAO;
+import dao.TbFilesDAO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import model.TbBeneficiaries;
+import model.TbFiles;
 import org.apache.log4j.Logger;
 
 /**
@@ -28,19 +31,20 @@ public class Convert {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File fileCSV : filesCSV) {
             long total = 0;
+            TbFiles file = TbFilesDAO.getInstance().get(fileCSV.getName());
             try {
                 OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
                 StrW.write("Use DB_ECA;");
-                StrW.write("LOCK TABLES `tb_payments` WRITE;");
+                StrW.write("LOCK TABLES tb_payments WRITE;");
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
 
-                    if (total > 0 && total <= 5000000) {
+                    if (total > 0) {
                         String SQL, source;
 
                         if (data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA")) {
@@ -49,12 +53,16 @@ public class Convert {
                             source = "2";
                         }
 
-                        SQL = "INSERT INTO `DB_ECA`.`tb_payments` (`tb_city_id_city`,`tb_functions_id_function`,`tb_subfunctions_id_subfunction`,`tb_program_id_program`,`tb_action_id_action`,`tb_beneficiaries_id_beneficiaries`,`tb_source_id_source`,`tb_files_id_file`,`db_value`) VALUES (" + Integer.parseInt(data[1]) + "," + Integer.parseInt(data[3]) + "," + Integer.parseInt(data[4]) + "," + Integer.parseInt(data[5]) + "," + Integer.parseInt(data[6]) + "," + Long.parseLong(data[7]) + "," + source + "," + "1," + Double.parseDouble(data[10]) + ");";
+                        SQL = "INSERT INTO DB_ECA.tb_payments (tb_city_id_city,tb_function_id_function,tb_subfunction_id_subfunction,tb_program_id_program,tb_action_id_action,tb_beneficiaries_id_beneficiary,tb_source_id_source,tb_files_id_file,db_value) VALUES (" + Integer.parseInt(data[1]) + "," + Integer.parseInt(data[3]) + "," + Integer.parseInt(data[4]) + "," + Integer.parseInt(data[5]) + "," + Integer.parseInt(data[6]) + "," + Long.parseLong(data[7]) + "," + source + "," + file.getIdFile() + "," + Double.parseDouble(data[10]) + ");";
 
                         StrW.write(SQL);
 
                         if (total % 10000 == 0) {
                             System.out.println("Lines = " + total);
+                            StrW.flush();
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
                         }
                     }
                     total++;
@@ -87,7 +95,7 @@ public class Convert {
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
         String SQL;
-
+        Arrays.sort(filesCSV);
         for (File fileCSV : filesCSV) {
             long total = 0;
             try {
@@ -95,15 +103,16 @@ public class Convert {
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
                 StrW.write("Use DB_ECA;\n");
-                StrW.write("LOCK TABLES `tb_beneficiaries` WRITE;\n");
+                StrW.write("LOCK TABLES tb_beneficiaries WRITE;\n");
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
 
-                    if (total > 0) {
-
+                    //if (total > 0 && total < 4500001) {
+                    //if (total > 4500000 && total < 8500001) {
+                    if (total > 8500000) {
                         TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
                         if (beneficiaries == null) {
-                            SQL = "INSERT INTO `DB_ECA`.`tb_beneficiaries` (`str_nis`,`str_name_person`) VALUES (" + Long.parseLong(data[7]) + ",'" + data[8].toUpperCase() + "');\n";
+                            SQL = "INSERT INTO DB_ECA.tb_beneficiaries (int_nis,str_name_person) VALUES (" + Long.parseLong(data[7]) + ",\"" + data[8].toUpperCase() + "\");\n";
                             StrW.write(SQL);
                         }
 
@@ -118,7 +127,7 @@ public class Convert {
                     total++;
                 }
                 StrW.write("UNLOCK TABLES;\n");
-                StrW.write("OPTIMIZE TABLE `DB_ECA`.`tb_beneficiaries`;\n");
+                StrW.write("OPTIMIZE TABLE DB_ECA.tb_beneficiaries;\n");
                 StrW.close();
             } catch (FileNotFoundException e) {
                 logger.error("Unexpected error", e);
@@ -176,6 +185,13 @@ public class Convert {
                             if (!data[9].toUpperCase().equals("CAIXA - PROGRAMA BOLSA FAMÍLIA (GDF)")) {
                                 System.out.println("New source detected \n Value: " + data[9].toUpperCase());
                             }
+                        }
+
+                        if (totalimport % 10000 == 0) {
+                            System.out.println("Lines = " + totalimport);
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
                         }
                     }
                     totalimport++;

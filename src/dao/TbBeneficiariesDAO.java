@@ -100,8 +100,9 @@ public class TbBeneficiariesDAO {
             List<TbBeneficiaries> instances = query.list();
             if (instances != null && instances.size() > 0) {
                 return instances.get(0);
+            } else {
+                return null;
             }
-            return null;
         } catch (Exception ex) {
             logger.error("Unexpected error", ex);
         } finally {

@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import model.TbAction;
 import model.TbBeneficiaries;
 import model.TbCity;
@@ -470,7 +471,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -530,6 +531,9 @@ public class ImportDBPart {
 
                         if (totalimport % 10000 == 0) {
                             System.out.println("Imports = " + totalimport);
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
                         }
                     }
                     totalimport++;
