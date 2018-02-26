@@ -269,7 +269,7 @@ public class Main {
         //Imports payments via SQL
         //impPBFOPT.start();
         //Geration SQL Import
-        ConvertSQLPayment.start();
+        //ConvertSQLPayment.start();
         //ConvertSQLBenficiaries.start();
         //Validate Data Import
         //ValidateData.start();

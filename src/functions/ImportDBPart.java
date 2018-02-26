@@ -44,7 +44,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -108,7 +108,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -163,7 +163,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -218,7 +218,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -273,7 +273,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -328,7 +328,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -384,7 +384,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
@@ -440,7 +440,7 @@ public class ImportDBPart {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;

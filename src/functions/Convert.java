@@ -99,36 +99,79 @@ public class Convert {
         for (File fileCSV : filesCSV) {
             long total = 0;
             try {
-                OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
+                OutputStreamWriter StrW1 = new OutputStreamWriter(new FileOutputStream(fOutput + "/p1_" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
+                OutputStreamWriter StrW2 = new OutputStreamWriter(new FileOutputStream(fOutput + "/p2_" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
+                OutputStreamWriter StrW3 = new OutputStreamWriter(new FileOutputStream(fOutput + "/p3_" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
                 System.out.println(fileCSV.getName());
-                StrW.write("Use DB_ECA;\n");
-                StrW.write("LOCK TABLES tb_beneficiaries WRITE;\n");
+                StrW1.write("Use DB_ECA;\n");
+                StrW1.write("LOCK TABLES tb_beneficiaries WRITE;\n");
+                StrW2.write("Use DB_ECA;\n");
+                StrW2.write("LOCK TABLES tb_beneficiaries WRITE;\n");
+                StrW3.write("Use DB_ECA;\n");
+                StrW3.write("LOCK TABLES tb_beneficiaries WRITE;\n");
                 while ((line = br.readLine()) != null) {
                     String[] data = line.split(csvDivisor);
 
-                    //if (total > 0 && total < 4500001) {
-                    //if (total > 4500000 && total < 8500001) {
-                    if (total > 8500000) {
+                    if (total > 0 && total < 4500001) {
                         TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
                         if (beneficiaries == null) {
                             SQL = "INSERT INTO DB_ECA.tb_beneficiaries (int_nis,str_name_person) VALUES (" + Long.parseLong(data[7]) + ",\"" + data[8].toUpperCase() + "\");\n";
-                            StrW.write(SQL);
+                            StrW1.write(SQL);
                         }
 
                         if (total % 10000 == 0) {
                             System.out.println("Lines = " + total);
-                            StrW.flush();
+                            StrW1.flush();
                             System.gc();
                             System.runFinalization();
                             System.gc();
                         }
                     }
+
+                    if (total > 4500000 && total < 8500001) {
+                        TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
+                        if (beneficiaries == null) {
+                            SQL = "INSERT INTO DB_ECA.tb_beneficiaries (int_nis,str_name_person) VALUES (" + Long.parseLong(data[7]) + ",\"" + data[8].toUpperCase() + "\");\n";
+                            StrW2.write(SQL);
+                        }
+
+                        if (total % 10000 == 0) {
+                            System.out.println("Lines = " + total);
+                            StrW2.flush();
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
+                        }
+                    }
+
+                    if (total > 8500000) {
+                        TbBeneficiaries beneficiaries = TbBeneficiariesDAO.getInstance().get(Long.parseLong(data[7]));
+                        if (beneficiaries == null) {
+                            SQL = "INSERT INTO DB_ECA.tb_beneficiaries (int_nis,str_name_person) VALUES (" + Long.parseLong(data[7]) + ",\"" + data[8].toUpperCase() + "\");\n";
+                            StrW3.write(SQL);
+                        }
+
+                        if (total % 10000 == 0) {
+                            System.out.println("Lines = " + total);
+                            StrW3.flush();
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
+                        }
+                    }
+
                     total++;
                 }
-                StrW.write("UNLOCK TABLES;\n");
-                StrW.write("OPTIMIZE TABLE DB_ECA.tb_beneficiaries;\n");
-                StrW.close();
+                StrW1.write("UNLOCK TABLES;\n");
+                StrW1.write("OPTIMIZE TABLE DB_ECA.tb_beneficiaries;\n");
+                StrW1.close();
+                StrW2.write("UNLOCK TABLES;\n");
+                StrW2.write("OPTIMIZE TABLE DB_ECA.tb_beneficiaries;\n");
+                StrW2.close();
+                StrW3.write("UNLOCK TABLES;\n");
+                StrW3.write("OPTIMIZE TABLE DB_ECA.tb_beneficiaries;\n");
+                StrW3.close();
             } catch (FileNotFoundException e) {
                 logger.error("Unexpected error", e);
             } catch (IOException e) {
@@ -153,7 +196,7 @@ public class Convert {
         String line = "";
         String csvDivisor = "\t";
         File[] filesCSV = fInput.listFiles();
-
+        Arrays.sort(filesCSV);
         for (File filesCSV1 : filesCSV) {
             long StartTime = System.currentTimeMillis();
             File fileCSV = filesCSV1;
