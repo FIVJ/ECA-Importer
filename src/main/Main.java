@@ -219,6 +219,23 @@ public class Main {
             }
         };
 
+        Thread ConvertPayment = new Thread() {
+            @Override
+            public void run() {
+                long StartTime = System.currentTimeMillis();
+                Convert csql = new Convert();
+                csql.convertPBF_Payments();
+                System.gc();
+                long EndTime = System.currentTimeMillis();
+                long totalms = ((EndTime - StartTime));
+                long totalsec = (totalms / 1000) % 60;
+                long totalmin = (totalms / 60000) % 60;
+                long totalh = (totalms / 3600000);
+                System.out.println("Files Imports - Total time ('HHH':'mm':'ss'.'SSS'): " + String.format("%03d:%02d:%02d.%03d", totalh, totalmin, totalsec, totalms));
+                System.exit(0);
+            }
+        };
+
         Thread ConvertSQLBenficiaries = new Thread() {
             @Override
             public void run() {
@@ -269,6 +286,7 @@ public class Main {
         //Imports payments via SQL
         //impPBFOPT.start();
         //Geration SQL Import
+        ConvertPayment.start();
         //ConvertSQLPayment.start();
         //ConvertSQLBenficiaries.start();
         //Validate Data Import

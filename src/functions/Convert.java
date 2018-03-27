@@ -53,7 +53,7 @@ public class Convert {
                             source = "2";
                         }
 
-                        SQL = "INSERT INTO DB_ECA.tb_payments (tb_city_id_city,tb_function_id_function,tb_subfunction_id_subfunction,tb_program_id_program,tb_action_id_action,tb_beneficiaries_id_beneficiary,tb_source_id_source,tb_files_id_file,db_value) VALUES (" + Integer.parseInt(data[1]) + "," + Integer.parseInt(data[3]) + "," + Integer.parseInt(data[4]) + "," + Integer.parseInt(data[5]) + "," + Integer.parseInt(data[6]) + "," + Long.parseLong(data[7]) + "," + source + "," + file.getIdFile() + "," + Double.parseDouble(data[10]) + ");";
+                        SQL = "INSERT INTO DB_ECA.tb_payments (tb_city_id_city,tb_function_id_function,tb_subfunction_id_subfunction,tb_program_id_program,tb_action_id_action,tb_beneficiaries_id_beneficiary,tb_source_id_source,tb_files_id_file,db_value) VALUES (" + Integer.parseInt(data[1]) + "," + Integer.parseInt(data[3]) + "," + Integer.parseInt(data[4]) + "," + Integer.parseInt(data[5]) + "," + Integer.parseInt(data[6]) + "," + Long.parseLong(data[7]) + "," + source + "," + file.getIdFile() + "," + Double.parseDouble(data[10].replaceAll(",", "")) + ");";
 
                         StrW.write(SQL);
 
@@ -254,6 +254,125 @@ public class Convert {
                     try {
                         br.close();
                         logger.trace("Ended Method Validation");
+                    } catch (IOException e) {
+                        logger.error("Unexpected error", e);
+                    }
+                }
+            }
+        }
+    }
+
+    public void convertPBF_Payments() {
+        logger.trace("Starting Method Convert");
+        File fInput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV/Pagamentos");
+        File fOutput = new File("/Users/tassio/NetBeansProjects/ECA-Importer/CSV_Converter/Pagamentos");
+        BufferedReader br = null;
+        String line = "";
+        String csvDivisor = "\t";
+        File[] filesCSV = fInput.listFiles();
+        Arrays.sort(filesCSV);
+        for (File fileCSV : filesCSV) {
+            long total = 0;
+            try {
+                OutputStreamWriter StrW = new OutputStreamWriter(new FileOutputStream(fOutput + "/" + fileCSV.getName().replaceAll("csv", "sql")), "ISO-8859-1");
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(fInput + "/" + fileCSV.getName()), "ISO-8859-1"));
+                System.out.println(fileCSV.getName());
+                StrW.write("Use `DB_ECA`;\n");
+                StrW.write("LOCK TABLES `tb_PBFPayments"+fileCSV.getName().substring(0, 4)+"` WRITE;\n");
+                while ((line = br.readLine()) != null) {
+                    String[] data = line.split(csvDivisor);
+
+                    if (total > 0) {
+                        String SQL;
+
+                        String region;
+                        switch (data[0].toUpperCase()) {
+                            case "MG":
+                            case "RJ":
+                            case "SP":
+                            case "ES":
+                                region = "SUDESTE";
+                                break;
+                            case "PR":
+                            case "RS":
+                            case "SC":
+                                region = "SUL";
+                                break;
+                            case "DF":
+                            case "GO":
+                            case "MT":
+                            case "MS":
+                                region = "CENTRO-OESTE";
+                                break;
+                            case "AM":
+                            case "AC":
+                            case "RO":
+                            case "RR":
+                            case "TO":
+                            case "AP":
+                                region = "NORTE";
+                                break;
+                            default:
+                                region = "NORDESTE";
+                                break;
+                        }
+
+                        SQL = "INSERT INTO `DB_ECA`.`tb_PBFPayments"+fileCSV.getName().substring(0, 4)+"` "
+                                + "(`NIS`,"
+                                + "`Name`,"
+                                + "`Siafi`,"
+                                + "`City`,"
+                                + "`State`,"
+                                + "`Region`,"
+                                + "`File`,"
+                                + "`Month`,"
+                                + "`Year`,"
+                                + "`Program`,"
+                                + "`Action`,"
+                                + "`Function`,"
+                                + "`SubFunction`,"
+                                + "`Source`,"
+                                + "`Value`)"
+                                + "VALUES ("
+                                + data[7] + ",\""
+                                + data[8].toUpperCase() + "\","
+                                + data[1] + ", \""
+                                + data[2].toUpperCase() + "\",\""
+                                + data[0].toUpperCase() + "\",\""
+                                + region + "\",\""
+                                + fileCSV.getName().toUpperCase() + "\","
+                                + Integer.parseInt(fileCSV.getName().substring(4, 6)) + ","
+                                + Integer.parseInt(fileCSV.getName().substring(0, 4)) + ","
+                                + Integer.parseInt(data[5]) + ","
+                                + Integer.parseInt(data[6]) + ","
+                                + Integer.parseInt(data[3]) + ","
+                                + Integer.parseInt(data[4]) + ",\""
+                                + data[9].toUpperCase() + "\","
+                                + Double.parseDouble(data[10].replaceAll(",", "")) + ");\n";
+
+                        StrW.write(SQL);
+
+                        if (total % 10000 == 0) {
+                            System.out.println("Lines = " + total);
+                            StrW.flush();
+                            System.gc();
+                            System.runFinalization();
+                            System.gc();
+                        }
+                    }
+                    total++;
+                }
+                StrW.write("UNLOCK TABLES;");
+                StrW.close();
+            } catch (FileNotFoundException e) {
+                logger.error("Unexpected error", e);
+            } catch (IOException e) {
+                logger.error("Unexpected error", e);
+            } finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                        logger.trace("Ended Method Convert");
                     } catch (IOException e) {
                         logger.error("Unexpected error", e);
                     }
