@@ -274,7 +274,7 @@ public class Main {
         //impPBFBeneficiaries.start();
         //impPBFFiles.start();
         //impPBFAction.start();
-        //impPBFCities.start();
+        impPBFCities.start();
         //impPBFFunctions.start();
         //impPBFProgram.start();
         //impPBFSource.start();
@@ -286,7 +286,7 @@ public class Main {
         //Imports payments via SQL
         //impPBFOPT.start();
         //Geration SQL Import
-        ConvertPayment.start();
+        //ConvertPayment.start();
         //ConvertSQLPayment.start();
         //ConvertSQLBenficiaries.start();
         //Validate Data Import
